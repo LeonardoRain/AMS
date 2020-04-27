@@ -2,3 +2,11 @@ form nz-form-item {
     margin-right: 16px;
     margin-bottom: 8px;
 }
+
+.statusRight {
+    color: rgb(10, 218, 55);
+}
+
+.statusWrong {
+    color: red;
+}

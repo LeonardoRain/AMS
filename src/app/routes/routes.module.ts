@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '@shared';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 // dashboard pages
@@ -25,7 +27,7 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({
-	imports: [SharedModule, RouteRoutingModule],
+	imports: [SharedModule, RouteRoutingModule, NzIconModule, NzButtonModule],
 	declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
 })
 export class RoutesModule {}

@@ -81,8 +81,20 @@
 				</td>
 				<td [nzAlign]="'center'">{{ data.cpuUsage }}</td>
 				<td [nzAlign]="'center'">{{ data.ramUsage }}</td>
-				<td [nzAlign]="'center'">{{ data.runningState }}</td>
-				<td [nzAlign]="'center'">{{ data.monitorState }}</td>
+				<td [nzAlign]="'center'" class="statusRight">
+					<span nz-typography>
+						<code>
+							<b>{{ data.runningState }}</b>
+						</code>
+					</span>
+				</td>
+				<td [nzAlign]="'center'" class="statusRight">
+					<span nz-typography>
+						<code>
+							<b>{{ data.monitorState }}</b>
+						</code>
+					</span>
+				</td>
 				<td [nzAlign]="'center'">{{ data.belongService }}</td>
 				<td
 					[nzRight]="fixedColumn"

@@ -1,4 +1,41 @@
 <!-- <page-header [action]="phActionTpl" title="欢迎，系统管理员">
 	<ng-template #phActionTpl> </ng-template>
 </page-header> -->
+<!-- 功能按钮组（标签设置、启用监控、暂停监控） -->
+<div class="ActionButtons">
+	<button nz-button nzType="primary" nzGhost>
+		<i nz-icon nzType="tag" nzTheme="outline"></i>标签设置
+	</button>
+	<button nz-button nzType="primary" background-color="green">
+		<i nz-icon nzType="play-circle" nzTheme="outline"></i>启用监控
+	</button>
+	<button nz-button nzType="primary" nzDanger>
+		<i nz-icon nzType="pause" nzTheme="outline"></i>暂停监控
+	</button>
+</div>
+<!-- 列表过滤器 -->
+<div class="ListFilter">
+	<app-select-area></app-select-area>
+	<input nz-input placeholder="版本" nzSize="default" class="filterInput" />
+	<input nz-input placeholder="标签" nzSize="default" class="filterInput" />
+	<nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+		<input
+			type="text"
+			nz-input
+			placeholder="主机名称"
+			class="filterInput"
+		/>
+	</nz-input-group>
+	<ng-template #suffixIconButton>
+		<button nz-button nzType="primary" nzSearch>
+			<i nz-icon nzType="search"></i>
+		</button>
+	</ng-template>
+	<button nz-button nzType="primary" class="littleButton">
+		<i nz-icon nzType="reload" nzTheme="outline"></i>
+	</button>
+	<button nz-button nzType="primary" class="littleButton">
+		<i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+	</button>
+</div>
 <app-host-list></app-host-list>

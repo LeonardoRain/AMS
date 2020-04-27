@@ -97,7 +97,7 @@ export class StartupService {
 				children: [
 					{
 						text: '主机',
-						icon: { type: 'icon', value: 'laptop' },
+						icon: { type: 'icon', value: 'desktop' },
 						children: [
 							{
 								text: '主机监控',
@@ -117,7 +117,7 @@ export class StartupService {
 					},
 					{
 						text: '节点',
-						icon: { type: 'icon', value: 'fork' },
+						icon: { type: 'icon', value: 'apartment' },
 						children: [
 							{
 								text: '节点监视',
