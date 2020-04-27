@@ -1,0 +1,102 @@
+<!-- <div class="components-table-demo-control-bar">
+	<form nz-form nzLayout="inline" [formGroup]="settingForm">
+		<nz-form-item *ngFor="let switch of listOfSwitch">
+			<nz-form-label> {{ switch.name }} </nz-form-label>
+			<nz-form-control
+				><nz-switch
+					[formControlName]="switch.formControlName"
+				></nz-switch
+			></nz-form-control>
+		</nz-form-item>
+		<nz-form-item *ngFor="let radio of listOfRadio">
+			<nz-form-label> {{ radio.name }} </nz-form-label>
+			<nz-form-control>
+				<nz-radio-group [formControlName]="radio.formControlName">
+					<label
+						*ngFor="let o of radio.listOfOption"
+						nz-radio-button
+						[nzValue]="o.value"
+						>{{ o.label }}</label
+					>
+				</nz-radio-group>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+</div> -->
+<nz-table
+	#dynamicTable
+	[nzScroll]="{ x: scrollX, y: scrollY }"
+	[nzData]="listOfData"
+	[nzTableLayout]="settingValue.tableLayout"
+	[nzBordered]="settingValue.bordered"
+	[nzSimple]="settingValue.simple"
+	[nzLoading]="settingValue.loading"
+	[nzPaginationPosition]="settingValue.position"
+	[nzShowSizeChanger]="settingValue.sizeChanger"
+	[nzFrontPagination]="settingValue.pagination"
+	[nzShowPagination]="settingValue.pagination"
+	[nzFooter]="DataNum"
+	[nzTitle]="settingValue.title ? 'Here is Title' : null"
+	[nzSize]="settingValue.size"
+	(nzCurrentPageDataChange)="currentPageDataChange($event)"
+>
+	<thead>
+		<tr *ngIf="settingValue.header">
+			<th
+				*ngIf="settingValue.checkbox"
+				nzWidth="60px"
+				[(nzChecked)]="allChecked"
+				[nzLeft]="fixedColumn"
+				[nzIndeterminate]="indeterminate"
+				(nzCheckedChange)="checkAll($event)"
+			></th>
+			<th [nzLeft]="fixedColumn" [nzAlign]="'center'">主机名称</th>
+			<th [nzAlign]="'center'">Agent版本</th>
+			<th [nzAlign]="'center'">标签</th>
+			<th [nzAlign]="'center'">所属区域</th>
+			<th [nzAlign]="'center'">CPU使用</th>
+			<th [nzAlign]="'center'">内存使用</th>
+			<th [nzAlign]="'center'">运行状态</th>
+			<th [nzAlign]="'center'">监控状态</th>
+			<th [nzAlign]="'center'">所属服务</th>
+			<th [nzRight]="fixedColumn" [nzAlign]="'center'">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<ng-container *ngFor="let data of dynamicTable.data">
+			<tr>
+				<td
+					[nzLeft]="fixedColumn"
+					*ngIf="settingValue.checkbox"
+					[(nzChecked)]="data.checked"
+					(nzCheckedChange)="refreshStatus()"
+				></td>
+				<td [nzLeft]="fixedColumn" [nzAlign]="'center'">
+					{{ data.hostName }}
+				</td>
+				<td [nzAlign]="'center'">{{ data.agentVersion }}</td>
+				<td [nzAlign]="'center'">{{ data.tag }}</td>
+				<td [nzEllipsis]="settingValue.ellipsis" [nzAlign]="'center'">
+					{{ data.belongArea }}
+				</td>
+				<td [nzAlign]="'center'">{{ data.cpuUsage }}</td>
+				<td [nzAlign]="'center'">{{ data.ramUsage }}</td>
+				<td [nzAlign]="'center'">{{ data.runningState }}</td>
+				<td [nzAlign]="'center'">{{ data.monitorState }}</td>
+				<td [nzAlign]="'center'">{{ data.belongService }}</td>
+				<td
+					[nzRight]="fixedColumn"
+					[nzEllipsis]="settingValue.ellipsis"
+					[nzAlign]="'center'"
+				>
+					<a href="#">启用监控</a>
+					<nz-divider nzType="vertical"></nz-divider>
+					<a href="#">暂停监控</a>
+				</td>
+			</tr>
+			<tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+				<span> {{ data.description }}</span>
+			</tr>
+		</ng-container>
+	</tbody>
+</nz-table>

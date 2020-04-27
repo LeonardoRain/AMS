@@ -10,5 +10,5 @@ font author site: mailto:dcc700@gmail.com
 icon designer: Alex Berkowitz
 icon designer link: /berky93
         
-{"bg":"#E6F2FE","icon-gradient-0":"#51A4FB","icon-gradient-1":"#51A4FB","font":"#193655","slogan":"#2d4a69"}
+{"bg":"#488eff","icon":"#7fe7ff","font":"#ffffff","slogan":"#ffffff"}
       

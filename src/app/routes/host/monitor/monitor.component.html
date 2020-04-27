@@ -1,14 +1,4 @@
-<page-header [action]="phActionTpl">
-	<ng-template #phActionTpl>
-		<button (click)="add()" nz-button nzType="primary">新建</button>
-	</ng-template>
-</page-header>
-<nz-card>
-	<sf
-		mode="search"
-		[schema]="searchSchema"
-		(formSubmit)="st.reset($event)"
-		(formReset)="st.reset($event)"
-	></sf>
-	<st #st [data]="url" [columns]="columns"></st>
-</nz-card>
+<!-- <page-header [action]="phActionTpl" title="欢迎，系统管理员">
+	<ng-template #phActionTpl> </ng-template>
+</page-header> -->
+<app-host-list></app-host-list>
