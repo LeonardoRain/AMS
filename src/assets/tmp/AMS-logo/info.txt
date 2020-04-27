@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Rounded_Elegance
+font link: https://www.dafont.com/rounded-elegance.font
+font author: Genumano
+font author site: mailto:dcc700@gmail.com
+
+
+icon designer: Alex Berkowitz
+icon designer link: /berky93
+        
+{"bg":"#E6F2FE","icon-gradient-0":"#51A4FB","icon-gradient-1":"#51A4FB","font":"#193655","slogan":"#2d4a69"}
+      
