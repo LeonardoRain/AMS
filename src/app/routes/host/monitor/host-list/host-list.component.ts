@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-// tslint:disable-next-line: interface-name
-// interface ItemData {
-// 	name: string;
-// 	age: number | string;
-// 	address: string;
-// 	checked: boolean;
-// 	expand: boolean;
-// 	description: string;
-// 	disabled?: boolean;
-// }
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 // tslint:disable-next-line: interface-name
 interface HostData {
@@ -163,7 +153,35 @@ export class HostListComponent implements OnInit {
 		return data;
 	}
 
-	constructor(private formBuilder: FormBuilder) {}
+	// 启动主机监控确认模态框
+	public showStartConfirm(): void {
+		this.modal.confirm({
+			nzTitle: '<b>操作确认</b>',
+			nzContent: '<b>确定启用该主机的监控?</b>',
+			nzOkText: '确定',
+			nzOnOk: () => console.log('启用监控主机列表成功。'),
+			nzCancelText: '取消',
+			nzOnCancel: () => console.log('StartConfirmCancel'),
+		});
+	}
+
+	// 暂停主机监控确认模态框
+	public showPauseConfirm(): void {
+		this.modal.confirm({
+			nzTitle: '<b>操作确认</b>',
+			nzContent: '<b>确定停止该主机的监控?</b>',
+			nzOkText: '确定',
+			nzOkType: 'danger',
+			nzOnOk: () => console.log('停止监控主机列表成功。'),
+			nzCancelText: '取消',
+			nzOnCancel: () => console.log('PauseConfirmCancel'),
+		});
+	}
+
+	constructor(
+		private formBuilder: FormBuilder,
+		private modal: NzModalService
+	) {}
 
 	public ngOnInit(): void {
 		this.settingForm = this.formBuilder.group({

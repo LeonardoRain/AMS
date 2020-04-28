@@ -10,3 +10,17 @@ form nz-form-item {
 .statusWrong {
     color: red;
 }
+
+/* button中的 i标签水平垂直居中 */
+.pauseButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+}
+
+.startPauseButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

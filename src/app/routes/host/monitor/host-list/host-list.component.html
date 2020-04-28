@@ -101,9 +101,38 @@
 					[nzEllipsis]="settingValue.ellipsis"
 					[nzAlign]="'center'"
 				>
-					<a href="#">启用监控</a>
+					<!-- <a href="#">启用监控</a>
 					<nz-divider nzType="vertical"></nz-divider>
-					<a href="#">暂停监控</a>
+					<a href="#">暂停监控</a> -->
+					<!-- 暂停监控 -->
+					<div class="startPauseButtons">
+						<button
+							nz-button
+							nzType="primary"
+							nzDanger
+							nzSize="small"
+							class="pauseButton"
+							(click)="showPauseConfirm()"
+						>
+							<i nz-icon nzType="pause" nzTheme="outline"></i>
+						</button>
+						<!-- 分割线 -->
+						<nz-divider nzType="vertical"></nz-divider>
+						<!-- 启用监控 -->
+						<button
+							nz-button
+							nzType="primary"
+							nzSize="small"
+							class="pauseButton"
+							(click)="showStartConfirm()"
+						>
+							<i
+								nz-icon
+								nzType="caret-right"
+								nzTheme="outline"
+							></i>
+						</button>
+					</div>
 				</td>
 			</tr>
 			<tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">

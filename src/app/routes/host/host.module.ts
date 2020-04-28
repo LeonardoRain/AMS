@@ -7,6 +7,7 @@ import { HostRoutingModule } from './host-routing.module';
 import { SelectAreaComponent } from './monitor/components/select-area/select-area.component';
 import { HostListComponent } from './monitor/host-list/host-list.component';
 import { HostMonitorComponent } from './monitor/monitor.component';
+import { ModalConfirmComponent } from './monitor/components/modal-confirm/modal-confirm.component';
 
 const COMPONENTS = [HostMonitorComponent];
 const COMPONENTS_NOROUNT = [];
@@ -24,6 +25,7 @@ const COMPONENTS_NOROUNT = [];
 		...COMPONENTS_NOROUNT,
 		HostListComponent,
 		SelectAreaComponent,
+		ModalConfirmComponent,
 	],
 })
 export class HostModule {}
