@@ -81,14 +81,28 @@
 				</td>
 				<td [nzAlign]="'center'">{{ data.cpuUsage }}</td>
 				<td [nzAlign]="'center'">{{ data.ramUsage }}</td>
-				<td [nzAlign]="'center'" class="statusRight">
+				<td
+					[nzAlign]="'center'"
+					[ngClass]="
+						data.monitorState === '监控中'
+							? 'statusRight'
+							: 'statusWrong'
+					"
+				>
 					<span nz-typography>
 						<code>
 							<b>{{ data.runningState }}</b>
 						</code>
 					</span>
 				</td>
-				<td [nzAlign]="'center'" class="statusRight">
+				<td
+					[nzAlign]="'center'"
+					[ngClass]="
+						data.monitorState === '监控中'
+							? 'statusRight'
+							: 'statusWrong'
+					"
+				>
 					<span nz-typography>
 						<code>
 							<b>{{ data.monitorState }}</b>
@@ -104,33 +118,33 @@
 					<!-- <a href="#">启用监控</a>
 					<nz-divider nzType="vertical"></nz-divider>
 					<a href="#">暂停监控</a> -->
-					<!-- 暂停监控 -->
 					<div class="startPauseButtons">
-						<button
-							nz-button
-							nzType="primary"
-							nzDanger
-							nzSize="small"
-							class="pauseButton"
-							(click)="showPauseConfirm()"
-						>
-							<i nz-icon nzType="pause" nzTheme="outline"></i>
-						</button>
-						<!-- 分割线 -->
-						<nz-divider nzType="vertical"></nz-divider>
 						<!-- 启用监控 -->
 						<button
 							nz-button
 							nzType="primary"
 							nzSize="small"
 							class="pauseButton"
-							(click)="showStartConfirm()"
+							(click)="showStartConfirm(data.id)"
+							*ngIf="data.monitorState === '已暂停'"
 						>
 							<i
 								nz-icon
 								nzType="caret-right"
 								nzTheme="outline"
 							></i>
+						</button>
+						<!-- 暂停监控 -->
+						<button
+							nz-button
+							nzType="primary"
+							nzDanger
+							nzSize="small"
+							class="pauseButton"
+							(click)="showPauseConfirm(data.id)"
+							*ngIf="data.monitorState === '监控中'"
+						>
+							<i nz-icon nzType="pause" nzTheme="outline"></i>
 						</button>
 					</div>
 				</td>

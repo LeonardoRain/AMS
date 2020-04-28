@@ -4,6 +4,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 
 // tslint:disable-next-line: interface-name
 interface HostData {
+	id: number; // 主机id
 	hostName: string; // 主机名称
 	agentVersion: number | string; // Agent版本
 	tag: string; // 标签
@@ -137,7 +138,8 @@ export class HostListComponent implements OnInit {
 			const randomCpuUse = (Math.random() * 100).toFixed(2);
 			const randomRamNum = (Math.random() * 100).toFixed(2);
 			data.push({
-				hostName: 'crazy-host [172.16.22.207]',
+				id: i,
+				hostName: `crazy-host ${i} [172.16.22.207]`,
 				agentVersion: '5.0.0',
 				tag: 'host',
 				belongArea: '运维平台应用',
@@ -154,25 +156,33 @@ export class HostListComponent implements OnInit {
 	}
 
 	// 启动主机监控确认模态框
-	public showStartConfirm(): void {
+	public showStartConfirm(hostId: number): void {
 		this.modal.confirm({
 			nzTitle: '<b>操作确认</b>',
 			nzContent: '<b>确定启用该主机的监控?</b>',
 			nzOkText: '确定',
-			nzOnOk: () => console.log('启用监控主机列表成功。'),
+			nzOnOk: () => {
+				console.log('启用监控主机列表成功，监控主机id：' + hostId);
+				this.listOfData[hostId - 1].runningState = '正常';
+				this.listOfData[hostId - 1].monitorState = '监控中';
+			},
 			nzCancelText: '取消',
 			nzOnCancel: () => console.log('StartConfirmCancel'),
 		});
 	}
 
 	// 暂停主机监控确认模态框
-	public showPauseConfirm(): void {
+	public showPauseConfirm(hostId: number): void {
 		this.modal.confirm({
 			nzTitle: '<b>操作确认</b>',
 			nzContent: '<b>确定停止该主机的监控?</b>',
 			nzOkText: '确定',
 			nzOkType: 'danger',
-			nzOnOk: () => console.log('停止监控主机列表成功。'),
+			nzOnOk: () => {
+				console.log('暂停监控主机列表成功，监控主机id：' + hostId);
+				this.listOfData[hostId - 1].runningState = '--';
+				this.listOfData[hostId - 1].monitorState = '已暂停';
+			},
 			nzCancelText: '取消',
 			nzOnCancel: () => console.log('PauseConfirmCancel'),
 		});
