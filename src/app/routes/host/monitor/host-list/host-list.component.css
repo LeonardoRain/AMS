@@ -47,3 +47,7 @@ form nz-form-item {
     align-items: center;
     flex-wrap: nowrap
 }
+
+nz-select {
+    width: 150px;
+}

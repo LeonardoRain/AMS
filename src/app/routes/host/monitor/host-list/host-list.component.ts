@@ -65,6 +65,21 @@ export class HostListComponent implements OnInit {
 	public settingValue: Setting;
 	public isVisible = false;
 	public inputTag: string;
+	public selectedItem: any; // 选中的 所属区域
+	// inputQuery = iQ
+	public iQBelongArea: string; // 输入查询所属区域
+	public iQHostName: string; // 输入查询主机名称
+	public iQAgentVersion: number | string; // 输入查询Agent版本
+	public iQTag: string; // 输入查询标签
+	// 所属区域信息
+	public optionList = [
+		{ label: '全部', value: '全部', id: 0 },
+		{ label: 'Ams', value: 'Ams', id: 1 },
+		{ label: 'JP-COMPUTER', value: 'JP-COMPUTER', id: 2 },
+		{ label: '公司内网', value: '公司内网', id: 3 },
+		{ label: '44机器', value: '44机器', id: 4 },
+		{ label: '运维平台应用', value: '运维平台应用', id: 5 },
+	];
 	public listOfSwitch = [
 		{ name: 'Bordered', formControlName: 'bordered' },
 		{ name: 'Loading', formControlName: 'loading' },
@@ -117,6 +132,21 @@ export class HostListComponent implements OnInit {
 			],
 		},
 	];
+
+	public compareFn = (o1: any, o2: any) =>
+		// tslint:disable-next-line: semicolon
+		o1 && o2 ? o1.value === o2.value : o1 === o2;
+
+	public selectedChange(Item: {
+		label: string;
+		value?: string;
+		id: number;
+	}): void {
+		if (Item !== null) {
+			// console.log(Item.value);
+			this.iQBelongArea = Item.value;
+		}
+	}
 
 	public currentPageDataChange($event: HostData[]): void {
 		this.displayData = $event;
@@ -316,6 +346,26 @@ export class HostListComponent implements OnInit {
 	// (两个参数，分别为通知类型 【'success' | 'info' | 'warning' | 'error'】和 通知标题，通知描述暂时为空)
 	public createNotification(type: string, title: string): void {
 		this.notification.create(type, title, ' ');
+	}
+
+	// 列表的模糊查询
+	public fuzzyQuery() {
+		console.log(
+			`FuzzyQuery:
+			所属区域：${this.iQBelongArea}
+			版本：${this.iQAgentVersion}
+			标签：${this.iQTag}
+			主机名称：${this.iQHostName}`
+		);
+	}
+
+	// 清除查询条件
+	public clearFuzzyQuery() {
+		this.selectedItem = '';
+		this.iQBelongArea = '';
+		this.iQAgentVersion = '';
+		this.iQTag = '';
+		this.iQHostName = '';
 	}
 
 	public ngOnInit(): void {

@@ -31,25 +31,60 @@
 </div>
 <!-- 列表过滤器 -->
 <div class="ListFilter">
-	<app-select-area></app-select-area>
-	<input nz-input placeholder="版本" nzSize="default" class="filterInput" />
-	<input nz-input placeholder="标签" nzSize="default" class="filterInput" />
+	<!-- 所属区域 -->
+	<nz-select
+		[(ngModel)]="selectedItem"
+		[compareWith]="compareFn"
+		(ngModelChange)="selectedChange($event)"
+		nzAllowClear
+		nzPlaceHolder="所属区域"
+	>
+		<nz-option
+			*ngFor="let option of optionList"
+			[nzValue]="option"
+			[nzLabel]="option.label"
+		></nz-option>
+	</nz-select>
+
+	<input
+		nz-input
+		placeholder="版本"
+		nzSize="default"
+		class="filterInput"
+		[(ngModel)]="iQAgentVersion"
+	/>
+	<input
+		nz-input
+		placeholder="标签"
+		nzSize="default"
+		class="filterInput"
+		[(ngModel)]="iQTag"
+	/>
 	<nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
 		<input
 			type="text"
 			nz-input
 			placeholder="主机名称"
 			class="filterInput"
+			[(ngModel)]="iQHostName"
 		/>
 	</nz-input-group>
+	<!-- 查询按钮 -->
 	<ng-template #suffixIconButton>
-		<button nz-button nzType="primary" nzSearch>
+		<button nz-button nzType="primary" nzSearch (click)="fuzzyQuery()">
 			<i nz-icon nzType="search"></i>
 		</button>
 	</ng-template>
-	<button nz-button nzType="primary" class="littleButton">
+	<!-- 清除查询条件按钮 -->
+	<button
+		nz-button
+		nzType="primary"
+		class="littleButton"
+		(click)="clearFuzzyQuery()"
+	>
 		<i nz-icon nzType="reload" nzTheme="outline"></i>
 	</button>
+	<!-- 选择显示的列按钮 -->
 	<button nz-button nzType="primary" class="littleButton">
 		<i nz-icon nzType="unordered-list" nzTheme="outline"></i>
 	</button>
