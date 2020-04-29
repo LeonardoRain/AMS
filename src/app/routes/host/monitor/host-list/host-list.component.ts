@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 // tslint:disable-next-line: interface-name
 interface HostData {
@@ -45,16 +46,25 @@ interface Setting {
 	styleUrls: ['./host-list.component.css'],
 })
 export class HostListComponent implements OnInit {
+	constructor(
+		private formBuilder: FormBuilder,
+		private modal: NzModalService,
+		private notification: NzNotificationService
+	) {}
+
 	public settingForm: FormGroup;
 	public DataNum: string;
 	public listOfData: HostData[] = [];
 	public displayData: HostData[] = [];
+	public choosedHostId: number[] = []; // 被选中的 hostId 数组
 	public allChecked = false;
 	public indeterminate = false;
 	public fixedColumn = false;
 	public scrollX: string | null = null;
 	public scrollY: string | null = null;
 	public settingValue: Setting;
+	public isVisible = false;
+	public inputTag: string;
 	public listOfSwitch = [
 		{ name: 'Bordered', formControlName: 'bordered' },
 		{ name: 'Loading', formControlName: 'loading' },
@@ -155,6 +165,45 @@ export class HostListComponent implements OnInit {
 		return data;
 	}
 
+	// 标签设置模态框 处理函数
+	public showTagModal(): void {
+		this.getChoosedHostId();
+		if (this.choosedHostId.length === 0) {
+			this.createNotification('warning', '请选择主机！');
+		} else {
+			this.isVisible = true;
+		}
+	}
+
+	public handleTagOk(): void {
+		// tslint:disable-next-line: prefer-for-of
+		for (let i = 0; i < this.choosedHostId.length; i++) {
+			// tslint:disable-next-line: prefer-const
+			let id = this.choosedHostId[i];
+			this.listOfData[id - 1].tag = this.inputTag;
+			this.listOfData[id - 1].checked = false;
+		}
+		this.allChecked = false;
+		this.indeterminate = false;
+		this.choosedHostId = [];
+		this.inputTag = '';
+		this.isVisible = false;
+	}
+
+	public handleTagCancel(): void {
+		// tslint:disable-next-line: prefer-for-of
+		for (let i = 0; i < this.choosedHostId.length; i++) {
+			// tslint:disable-next-line: prefer-const
+			let id = this.choosedHostId[i];
+			this.listOfData[id - 1].checked = false;
+		}
+		this.allChecked = false;
+		this.indeterminate = false;
+		this.choosedHostId = [];
+		this.inputTag = '';
+		this.isVisible = false;
+	}
+
 	// 启动单个主机监控确认模态框
 	public showStartConfirm(hostId: number): void {
 		this.modal.confirm({
@@ -162,12 +211,12 @@ export class HostListComponent implements OnInit {
 			nzContent: '<b>确定启用该主机的监控?</b>',
 			nzOkText: '确定',
 			nzOnOk: () => {
-				console.log('启用监控单个主机列表成功，监控主机id：' + hostId);
+				// console.log('启用监控单个主机列表成功，监控主机id：' + hostId);
 				this.listOfData[hostId - 1].runningState = '正常';
 				this.listOfData[hostId - 1].monitorState = '监控中';
 			},
 			nzCancelText: '取消',
-			nzOnCancel: () => console.log('StartConfirmCancel'),
+			// nzOnCancel: () => console.log('StartConfirmCancel'),
 		});
 	}
 
@@ -179,74 +228,95 @@ export class HostListComponent implements OnInit {
 			nzOkText: '确定',
 			nzOkType: 'danger',
 			nzOnOk: () => {
-				console.log('暂停监控单个主机列表成功，监控主机id：' + hostId);
+				// console.log('暂停监控单个主机列表成功，监控主机id：' + hostId);
 				this.listOfData[hostId - 1].runningState = '--';
 				this.listOfData[hostId - 1].monitorState = '已暂停';
 			},
 			nzCancelText: '取消',
-			nzOnCancel: () => console.log('PauseConfirmCancel'),
+			// nzOnCancel: () => console.log('PauseConfirmCancel'),
 		});
+	}
+
+	public getChoosedHostId() {
+		// tslint:disable-next-line: prefer-for-of
+		for (let i = 0; i < this.listOfData.length; i++) {
+			if (this.listOfData[i].checked === true) {
+				this.choosedHostId.push(this.listOfData[i].id);
+			}
+		}
 	}
 
 	// 启动所选主机监控确认模态框
 	public showChoosedStartConfirm(): void {
-		this.modal.confirm({
-			nzTitle: '<b>操作确认</b>',
-			nzContent: '<b>确定启用所选主机的监控?</b>',
-			nzOkText: '确定',
-			nzOnOk: () => {
-				// tslint:disable-next-line: prefer-for-of
-				for (let i = 0; i < this.listOfData.length; i++) {
-					if (this.listOfData[i].checked === true) {
-						console.log(
-							'启用监控所选主机列表成功，监控主机id：' +
-								this.listOfData[i].id
-						);
-						this.listOfData[i].runningState = '正常';
-						this.listOfData[i].monitorState = '监控中';
-						this.listOfData[i].checked = false;
-						this.allChecked = false;
-						this.indeterminate = false;
+		this.getChoosedHostId();
+		if (this.choosedHostId.length === 0) {
+			this.createNotification('warning', '请选择主机！');
+		} else {
+			this.modal.confirm({
+				nzTitle: '<b>操作确认</b>',
+				nzContent: '<b>确定启用所选主机的监控?</b>',
+				nzOkText: '确定',
+				nzOnOk: () => {
+					// tslint:disable-next-line: prefer-for-of
+					for (let i = 0; i < this.choosedHostId.length; i++) {
+						// tslint:disable-next-line: prefer-const
+						let id = this.choosedHostId[i];
+						// console.log(
+						// 	'启用监控所选主机列表成功，监控主机id：' + id
+						// );
+						this.listOfData[id].runningState = '正常';
+						this.listOfData[id].monitorState = '监控中';
+						this.listOfData[id - 1].checked = false;
 					}
-				}
-			},
-			nzCancelText: '取消',
-			nzOnCancel: () => console.log('StartConfirmCancel'),
-		});
+					this.createNotification('success', '启用监控主机列表成功');
+					this.allChecked = false;
+					this.indeterminate = false;
+					this.choosedHostId = [];
+				},
+				nzCancelText: '取消',
+				// nzOnCancel: () => console.log('StartConfirmCancel'),
+			});
+		}
 	}
 
 	// 暂停所选主机监控确认模态框
 	public showChoosedPauseConfirm(): void {
-		this.modal.confirm({
-			nzTitle: '<b>操作确认</b>',
-			nzContent: '<b>确定停止所选主机的监控?</b>',
-			nzOkText: '确定',
-			nzOkType: 'danger',
-			nzOnOk: () => {
-				// tslint:disable-next-line: prefer-for-of
-				for (let i = 0; i < this.listOfData.length; i++) {
-					if (this.listOfData[i].checked === true) {
-						console.log(
-							'暂停监控所选主机列表成功，监控主机id：' +
-								this.listOfData[i].id
-						);
-						this.listOfData[i].runningState = '--';
-						this.listOfData[i].monitorState = '已暂停';
-						this.listOfData[i].checked = false;
-						this.allChecked = false;
-						this.indeterminate = false;
+		this.getChoosedHostId();
+		if (this.choosedHostId.length === 0) {
+			this.createNotification('warning', '请选择主机！');
+		} else {
+			this.modal.confirm({
+				nzTitle: '<b>操作确认</b>',
+				nzContent: '<b>确定停止所选主机的监控?</b>',
+				nzOkText: '确定',
+				nzOnOk: () => {
+					// tslint:disable-next-line: prefer-for-of
+					for (let i = 0; i < this.choosedHostId.length; i++) {
+						// tslint:disable-next-line: prefer-const
+						let id = this.choosedHostId[i];
+						// console.log(
+						// 	'暂停监控所选主机列表成功，监控主机id：' + id
+						// );
+						this.listOfData[id].runningState = '--';
+						this.listOfData[id].monitorState = '已暂停';
+						this.listOfData[id - 1].checked = false;
 					}
-				}
-			},
-			nzCancelText: '取消',
-			nzOnCancel: () => console.log('PauseConfirmCancel'),
-		});
+					this.createNotification('success', '停止监控主机列表成功');
+					this.allChecked = false;
+					this.indeterminate = false;
+					this.choosedHostId = [];
+				},
+				nzCancelText: '取消',
+				// nzOnCancel: () => console.log('PauseConfirmCancel'),
+			});
+		}
 	}
 
-	constructor(
-		private formBuilder: FormBuilder,
-		private modal: NzModalService
-	) {}
+	// 通知提醒框 创建函数：
+	// (两个参数，分别为通知类型 【'success' | 'info' | 'warning' | 'error'】和 通知标题，通知描述暂时为空)
+	public createNotification(type: string, title: string): void {
+		this.notification.create(type, title, ' ');
+	}
 
 	public ngOnInit(): void {
 		this.settingForm = this.formBuilder.group({

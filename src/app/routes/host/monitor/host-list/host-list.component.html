@@ -1,6 +1,15 @@
 <!-- 功能按钮组（标签设置、启用监控、暂停监控） -->
 <div class="ActionButtons">
-	<button nz-button nzType="primary" nzGhost>
+	<!-- 标签设置模态框 -->
+	<nz-modal
+		[(nzVisible)]="isVisible"
+		nzTitle="<b>标签设置</b>"
+		(nzOnCancel)="handleTagCancel()"
+		(nzOnOk)="handleTagOk()"
+	>
+		<input nz-input placeholder="请输入标签名" [(ngModel)]="inputTag" />
+	</nz-modal>
+	<button nz-button nzType="primary" nzGhost (click)="showTagModal()">
 		<i nz-icon nzType="tag" nzTheme="outline"></i>标签设置
 	</button>
 	<button
