@@ -267,8 +267,13 @@ export class HostListComponent implements OnInit {
 		for (let i = 0; i < this.choosedHostId.length; i++) {
 			// tslint:disable-next-line: prefer-const
 			let id = this.choosedHostId[i];
-			this.listOfData[id - 1].tag = this.inputTag;
-			this.listOfData[id - 1].checked = false;
+			// tslint:disable-next-line: prefer-for-of
+			for (let j = 0; j < this.listOfData.length; j++) {
+				if (this.listOfData[j].id === id) {
+					this.listOfData[j].tag = this.inputTag;
+					this.listOfData[j].checked = false;
+				}
+			}
 		}
 		this.allChecked = false;
 		this.indeterminate = false;
@@ -282,7 +287,12 @@ export class HostListComponent implements OnInit {
 		for (let i = 0; i < this.choosedHostId.length; i++) {
 			// tslint:disable-next-line: prefer-const
 			let id = this.choosedHostId[i];
-			this.listOfData[id - 1].checked = false;
+			// tslint:disable-next-line: prefer-for-of
+			for (let j = 0; j < this.listOfData.length; j++) {
+				if (this.listOfData[j].id === id) {
+					this.listOfData[j].checked = false;
+				}
+			}
 		}
 		this.allChecked = false;
 		this.indeterminate = false;
