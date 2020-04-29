@@ -1,28 +1,50 @@
-<!-- <div class="components-table-demo-control-bar">
-	<form nz-form nzLayout="inline" [formGroup]="settingForm">
-		<nz-form-item *ngFor="let switch of listOfSwitch">
-			<nz-form-label> {{ switch.name }} </nz-form-label>
-			<nz-form-control
-				><nz-switch
-					[formControlName]="switch.formControlName"
-				></nz-switch
-			></nz-form-control>
-		</nz-form-item>
-		<nz-form-item *ngFor="let radio of listOfRadio">
-			<nz-form-label> {{ radio.name }} </nz-form-label>
-			<nz-form-control>
-				<nz-radio-group [formControlName]="radio.formControlName">
-					<label
-						*ngFor="let o of radio.listOfOption"
-						nz-radio-button
-						[nzValue]="o.value"
-						>{{ o.label }}</label
-					>
-				</nz-radio-group>
-			</nz-form-control>
-		</nz-form-item>
-	</form>
-</div> -->
+<!-- 功能按钮组（标签设置、启用监控、暂停监控） -->
+<div class="ActionButtons">
+	<button nz-button nzType="primary" nzGhost>
+		<i nz-icon nzType="tag" nzTheme="outline"></i>标签设置
+	</button>
+	<button
+		nz-button
+		nzType="primary"
+		background-color="green"
+		(click)="showChoosedStartConfirm()"
+	>
+		<i nz-icon nzType="caret-right" nzTheme="outline"></i>启用监控
+	</button>
+	<button
+		nz-button
+		nzType="primary"
+		nzDanger
+		(click)="showChoosedPauseConfirm()"
+	>
+		<i nz-icon nzType="pause" nzTheme="outline"></i>暂停监控
+	</button>
+</div>
+<!-- 列表过滤器 -->
+<div class="ListFilter">
+	<app-select-area></app-select-area>
+	<input nz-input placeholder="版本" nzSize="default" class="filterInput" />
+	<input nz-input placeholder="标签" nzSize="default" class="filterInput" />
+	<nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+		<input
+			type="text"
+			nz-input
+			placeholder="主机名称"
+			class="filterInput"
+		/>
+	</nz-input-group>
+	<ng-template #suffixIconButton>
+		<button nz-button nzType="primary" nzSearch>
+			<i nz-icon nzType="search"></i>
+		</button>
+	</ng-template>
+	<button nz-button nzType="primary" class="littleButton">
+		<i nz-icon nzType="reload" nzTheme="outline"></i>
+	</button>
+	<button nz-button nzType="primary" class="littleButton">
+		<i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+	</button>
+</div>
 <nz-table
 	#dynamicTable
 	[nzScroll]="{ x: scrollX, y: scrollY }"

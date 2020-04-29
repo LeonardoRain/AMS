@@ -24,3 +24,26 @@ form nz-form-item {
     justify-content: center;
     align-items: center;
 }
+
+.ActionButtons {
+    margin-bottom: 10px;
+}
+
+.ListFilter {
+    margin: 0 0 10px 0;
+    display: flex;
+}
+
+.filterInput {
+    width: 150px;
+    height: 32px;
+    margin-left: 1px;
+}
+
+.littleButton {
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap
+}

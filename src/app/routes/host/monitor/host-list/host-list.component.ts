@@ -46,8 +46,8 @@ interface Setting {
 })
 export class HostListComponent implements OnInit {
 	public settingForm: FormGroup;
-	public listOfData: HostData[] = [];
 	public DataNum: string;
+	public listOfData: HostData[] = [];
 	public displayData: HostData[] = [];
 	public allChecked = false;
 	public indeterminate = false;
@@ -155,14 +155,14 @@ export class HostListComponent implements OnInit {
 		return data;
 	}
 
-	// 启动主机监控确认模态框
+	// 启动单个主机监控确认模态框
 	public showStartConfirm(hostId: number): void {
 		this.modal.confirm({
 			nzTitle: '<b>操作确认</b>',
 			nzContent: '<b>确定启用该主机的监控?</b>',
 			nzOkText: '确定',
 			nzOnOk: () => {
-				console.log('启用监控主机列表成功，监控主机id：' + hostId);
+				console.log('启用监控单个主机列表成功，监控主机id：' + hostId);
 				this.listOfData[hostId - 1].runningState = '正常';
 				this.listOfData[hostId - 1].monitorState = '监控中';
 			},
@@ -171,7 +171,7 @@ export class HostListComponent implements OnInit {
 		});
 	}
 
-	// 暂停主机监控确认模态框
+	// 暂停单个主机监控确认模态框
 	public showPauseConfirm(hostId: number): void {
 		this.modal.confirm({
 			nzTitle: '<b>操作确认</b>',
@@ -179,9 +179,64 @@ export class HostListComponent implements OnInit {
 			nzOkText: '确定',
 			nzOkType: 'danger',
 			nzOnOk: () => {
-				console.log('暂停监控主机列表成功，监控主机id：' + hostId);
+				console.log('暂停监控单个主机列表成功，监控主机id：' + hostId);
 				this.listOfData[hostId - 1].runningState = '--';
 				this.listOfData[hostId - 1].monitorState = '已暂停';
+			},
+			nzCancelText: '取消',
+			nzOnCancel: () => console.log('PauseConfirmCancel'),
+		});
+	}
+
+	// 启动所选主机监控确认模态框
+	public showChoosedStartConfirm(): void {
+		this.modal.confirm({
+			nzTitle: '<b>操作确认</b>',
+			nzContent: '<b>确定启用所选主机的监控?</b>',
+			nzOkText: '确定',
+			nzOnOk: () => {
+				// tslint:disable-next-line: prefer-for-of
+				for (let i = 0; i < this.listOfData.length; i++) {
+					if (this.listOfData[i].checked === true) {
+						console.log(
+							'启用监控所选主机列表成功，监控主机id：' +
+								this.listOfData[i].id
+						);
+						this.listOfData[i].runningState = '正常';
+						this.listOfData[i].monitorState = '监控中';
+						this.listOfData[i].checked = false;
+						this.allChecked = false;
+						this.indeterminate = false;
+					}
+				}
+			},
+			nzCancelText: '取消',
+			nzOnCancel: () => console.log('StartConfirmCancel'),
+		});
+	}
+
+	// 暂停所选主机监控确认模态框
+	public showChoosedPauseConfirm(): void {
+		this.modal.confirm({
+			nzTitle: '<b>操作确认</b>',
+			nzContent: '<b>确定停止所选主机的监控?</b>',
+			nzOkText: '确定',
+			nzOkType: 'danger',
+			nzOnOk: () => {
+				// tslint:disable-next-line: prefer-for-of
+				for (let i = 0; i < this.listOfData.length; i++) {
+					if (this.listOfData[i].checked === true) {
+						console.log(
+							'暂停监控所选主机列表成功，监控主机id：' +
+								this.listOfData[i].id
+						);
+						this.listOfData[i].runningState = '--';
+						this.listOfData[i].monitorState = '已暂停';
+						this.listOfData[i].checked = false;
+						this.allChecked = false;
+						this.indeterminate = false;
+					}
+				}
 			},
 			nzCancelText: '取消',
 			nzOnCancel: () => console.log('PauseConfirmCancel'),
