@@ -1,0 +1,13 @@
+<nz-select
+	[(ngModel)]="selectedItem"
+	[compareWith]="compareFn"
+	(ngModelChange)="selectedChange($event)"
+	nzAllowClear
+	nzPlaceHolder="所属区域"
+>
+	<nz-option
+		*ngFor="let option of optionList"
+		[nzValue]="option"
+		[nzLabel]="option.label"
+	></nz-option>
+</nz-select>
