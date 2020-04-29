@@ -71,7 +71,13 @@
 	</nz-input-group>
 	<!-- 查询按钮 -->
 	<ng-template #suffixIconButton>
-		<button nz-button nzType="primary" nzSearch (click)="fuzzyQuery()">
+		<button
+			nz-button
+			nzType="primary"
+			nzSearch
+			title="按条件查询"
+			(click)="fuzzyQuery()"
+		>
 			<i nz-icon nzType="search"></i>
 		</button>
 	</ng-template>
@@ -80,12 +86,18 @@
 		nz-button
 		nzType="primary"
 		class="littleButton"
+		title="重置查询条件"
 		(click)="clearFuzzyQuery()"
 	>
 		<i nz-icon nzType="reload" nzTheme="outline"></i>
 	</button>
 	<!-- 选择显示的列按钮 -->
-	<button nz-button nzType="primary" class="littleButton">
+	<button
+		nz-button
+		nzType="primary"
+		title="选择显示的列"
+		class="littleButton"
+	>
 		<i nz-icon nzType="unordered-list" nzTheme="outline"></i>
 	</button>
 </div>
@@ -138,7 +150,10 @@
 					(nzCheckedChange)="refreshStatus()"
 				></td>
 				<td [nzLeft]="fixedColumn" [nzAlign]="'center'">
-					{{ data.hostName }}
+					<a href="#">{{ data.hostName }}</a>
+					<span nz-typography class="ipAddress"
+						><code>[172.16.0.44]</code></span
+					>
 				</td>
 				<td [nzAlign]="'center'">{{ data.agentVersion }}</td>
 				<td [nzAlign]="'center'">{{ data.tag }}</td>
@@ -181,9 +196,6 @@
 					[nzEllipsis]="settingValue.ellipsis"
 					[nzAlign]="'center'"
 				>
-					<!-- <a href="#">启用监控</a>
-					<nz-divider nzType="vertical"></nz-divider>
-					<a href="#">暂停监控</a> -->
 					<div class="startPauseButtons">
 						<!-- 启用监控 -->
 						<button

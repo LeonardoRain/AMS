@@ -51,3 +51,8 @@ form nz-form-item {
 nz-select {
     width: 150px;
 }
+
+.ipAddress {
+    font-size: 12px;
+    color: rgb(128, 128, 128);
+}

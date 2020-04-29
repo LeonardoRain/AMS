@@ -7,7 +7,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 interface HostData {
 	id: number; // 主机id
 	hostName: string; // 主机名称
-	agentVersion: number | string; // Agent版本
+	agentVersion: string; // Agent版本
 	tag: string; // 标签
 	belongArea: string; // 所属区域
 	cpuUsage: string; // CPU使用
@@ -54,8 +54,9 @@ export class HostListComponent implements OnInit {
 
 	public settingForm: FormGroup;
 	public DataNum: string;
+	public generateDataList: HostData[] = []; // 生成的模拟数据
 	public listOfData: HostData[] = [];
-	public displayData: HostData[] = [];
+	public displayData: HostData[] = []; // 显示的能看见的那一页数据
 	public choosedHostId: number[] = []; // 被选中的 hostId 数组
 	public allChecked = false;
 	public indeterminate = false;
@@ -67,10 +68,10 @@ export class HostListComponent implements OnInit {
 	public inputTag: string;
 	public selectedItem: any; // 选中的 所属区域
 	// inputQuery = iQ
-	public iQBelongArea: string; // 输入查询所属区域
-	public iQHostName: string; // 输入查询主机名称
-	public iQAgentVersion: number | string; // 输入查询Agent版本
-	public iQTag: string; // 输入查询标签
+	public iQBelongArea = ''; // 输入查询所属区域
+	public iQHostName = ''; // 输入查询主机名称
+	public iQAgentVersion = ''; // 输入查询Agent版本
+	public iQTag = ''; // 输入查询标签
 	// 所属区域信息
 	public optionList = [
 		{ label: '全部', value: '全部', id: 0 },
@@ -143,7 +144,6 @@ export class HostListComponent implements OnInit {
 		id: number;
 	}): void {
 		if (Item !== null) {
-			// console.log(Item.value);
 			this.iQBelongArea = Item.value;
 		}
 	}
@@ -174,12 +174,68 @@ export class HostListComponent implements OnInit {
 
 	public generateData(): HostData[] {
 		const data = [];
+		data.push({
+			id: 1001,
+			hostName: `Ams-host`,
+			agentVersion: '5.0.0',
+			tag: 'AMS',
+			belongArea: 'Ams',
+			cpuUsage: `10.31%`,
+			ramUsage: `53.92%`,
+			runningState: '正常',
+			monitorState: '监控中',
+			belongService: `ICC-Monitor`,
+			checked: false,
+			expand: false,
+		});
+		data.push({
+			id: 1002,
+			hostName: `JP-host`,
+			agentVersion: '5.0.0',
+			tag: 'JP',
+			belongArea: 'JP-COMPUTER',
+			cpuUsage: `46.08%`,
+			ramUsage: `40.37%`,
+			runningState: '正常',
+			monitorState: '监控中',
+			belongService: `ICC-Monitor`,
+			checked: false,
+			expand: false,
+		});
+		data.push({
+			id: 1003,
+			hostName: `Intranet-host`,
+			agentVersion: '5.0.0',
+			tag: 'Intranet',
+			belongArea: '公司内网',
+			cpuUsage: `36.84%`,
+			ramUsage: `66.71%`,
+			runningState: '正常',
+			monitorState: '监控中',
+			belongService: `ICC-Monitor`,
+			checked: false,
+			expand: false,
+		});
+		data.push({
+			id: 1004,
+			hostName: `44-host`,
+			agentVersion: '5.0.0',
+			tag: '44',
+			belongArea: '44机器',
+			cpuUsage: `21.94%`,
+			ramUsage: `50.71%`,
+			runningState: '正常',
+			monitorState: '监控中',
+			belongService: `ICC-Monitor`,
+			checked: false,
+			expand: false,
+		});
 		for (let i = 1; i <= 100; i++) {
 			const randomCpuUse = (Math.random() * 100).toFixed(2);
 			const randomRamNum = (Math.random() * 100).toFixed(2);
 			data.push({
 				id: i,
-				hostName: `crazy-host ${i} [172.16.22.207]`,
+				hostName: `crazy-host ${i} `,
 				agentVersion: '5.0.0',
 				tag: 'host',
 				belongArea: '运维平台应用',
@@ -192,6 +248,7 @@ export class HostListComponent implements OnInit {
 				expand: false,
 			});
 		}
+		this.generateDataList = data;
 		return data;
 	}
 
@@ -241,12 +298,15 @@ export class HostListComponent implements OnInit {
 			nzContent: '<b>确定启用该主机的监控?</b>',
 			nzOkText: '确定',
 			nzOnOk: () => {
-				// console.log('启用监控单个主机列表成功，监控主机id：' + hostId);
-				this.listOfData[hostId - 1].runningState = '正常';
-				this.listOfData[hostId - 1].monitorState = '监控中';
+				// tslint:disable-next-line: prefer-for-of
+				for (let i = 0; i < this.listOfData.length; i++) {
+					if (this.listOfData[i].id === hostId) {
+						this.listOfData[i].runningState = '正常';
+						this.listOfData[i].monitorState = '监控中';
+					}
+				}
 			},
 			nzCancelText: '取消',
-			// nzOnCancel: () => console.log('StartConfirmCancel'),
 		});
 	}
 
@@ -258,12 +318,15 @@ export class HostListComponent implements OnInit {
 			nzOkText: '确定',
 			nzOkType: 'danger',
 			nzOnOk: () => {
-				// console.log('暂停监控单个主机列表成功，监控主机id：' + hostId);
-				this.listOfData[hostId - 1].runningState = '--';
-				this.listOfData[hostId - 1].monitorState = '已暂停';
+				// tslint:disable-next-line: prefer-for-of
+				for (let i = 0; i < this.listOfData.length; i++) {
+					if (this.listOfData[i].id === hostId) {
+						this.listOfData[i].runningState = '--';
+						this.listOfData[i].monitorState = '已暂停';
+					}
+				}
 			},
 			nzCancelText: '取消',
-			// nzOnCancel: () => console.log('PauseConfirmCancel'),
 		});
 	}
 
@@ -291,12 +354,14 @@ export class HostListComponent implements OnInit {
 					for (let i = 0; i < this.choosedHostId.length; i++) {
 						// tslint:disable-next-line: prefer-const
 						let id = this.choosedHostId[i];
-						// console.log(
-						// 	'启用监控所选主机列表成功，监控主机id：' + id
-						// );
-						this.listOfData[id].runningState = '正常';
-						this.listOfData[id].monitorState = '监控中';
-						this.listOfData[id - 1].checked = false;
+						// tslint:disable-next-line: prefer-for-of
+						for (let j = 0; j < this.listOfData.length; j++) {
+							if (this.listOfData[j].id === id) {
+								this.listOfData[i].runningState = '正常';
+								this.listOfData[i].monitorState = '监控中';
+								this.listOfData[i].checked = false;
+							}
+						}
 					}
 					this.createNotification('success', '启用监控主机列表成功');
 					this.allChecked = false;
@@ -304,7 +369,6 @@ export class HostListComponent implements OnInit {
 					this.choosedHostId = [];
 				},
 				nzCancelText: '取消',
-				// nzOnCancel: () => console.log('StartConfirmCancel'),
 			});
 		}
 	}
@@ -324,12 +388,14 @@ export class HostListComponent implements OnInit {
 					for (let i = 0; i < this.choosedHostId.length; i++) {
 						// tslint:disable-next-line: prefer-const
 						let id = this.choosedHostId[i];
-						// console.log(
-						// 	'暂停监控所选主机列表成功，监控主机id：' + id
-						// );
-						this.listOfData[id].runningState = '--';
-						this.listOfData[id].monitorState = '已暂停';
-						this.listOfData[id - 1].checked = false;
+						// tslint:disable-next-line: prefer-for-of
+						for (let j = 0; j < this.listOfData.length; j++) {
+							if (this.listOfData[j].id === id) {
+								this.listOfData[i].runningState = '--';
+								this.listOfData[i].monitorState = '已暂停';
+								this.listOfData[i].checked = false;
+							}
+						}
 					}
 					this.createNotification('success', '停止监控主机列表成功');
 					this.allChecked = false;
@@ -337,7 +403,6 @@ export class HostListComponent implements OnInit {
 					this.choosedHostId = [];
 				},
 				nzCancelText: '取消',
-				// nzOnCancel: () => console.log('PauseConfirmCancel'),
 			});
 		}
 	}
@@ -350,13 +415,38 @@ export class HostListComponent implements OnInit {
 
 	// 列表的模糊查询
 	public fuzzyQuery() {
-		console.log(
-			`FuzzyQuery:
-			所属区域：${this.iQBelongArea}
-			版本：${this.iQAgentVersion}
-			标签：${this.iQTag}
-			主机名称：${this.iQHostName}`
-		);
+		this.listOfData = this.generateDataList;
+		// console.log(
+		// 	`FuzzyQuery:
+		// 	所属区域：${this.iQBelongArea}
+		// 	版本：${this.iQAgentVersion}
+		// 	标签：${this.iQTag}
+		// 	主机名称：${this.iQHostName}`
+		// );
+
+		// tslint:disable-next-line: prefer-const
+		let queryedList = [];
+		// tslint:disable-next-line: prefer-const
+		let areaReg = new RegExp(this.iQBelongArea);
+		// tslint:disable-next-line: prefer-const
+		let versionReg = new RegExp(this.iQAgentVersion);
+		// tslint:disable-next-line: prefer-const
+		let tagReg = new RegExp(this.iQTag);
+		// tslint:disable-next-line: prefer-const
+		let nameReg = new RegExp(this.iQHostName);
+
+		// tslint:disable-next-line: prefer-for-of
+		for (let i = 0; i < this.listOfData.length; i++) {
+			if (
+				areaReg.test(this.listOfData[i].belongArea + '全部') &&
+				versionReg.test(this.listOfData[i].agentVersion) &&
+				tagReg.test(this.listOfData[i].tag) &&
+				nameReg.test(this.listOfData[i].hostName)
+			) {
+				queryedList.push(this.listOfData[i]);
+			}
+		}
+		this.listOfData = queryedList;
 	}
 
 	// 清除查询条件
@@ -366,6 +456,7 @@ export class HostListComponent implements OnInit {
 		this.iQAgentVersion = '';
 		this.iQTag = '';
 		this.iQHostName = '';
+		this.listOfData = this.generateDataList;
 	}
 
 	public ngOnInit(): void {
