@@ -72,22 +72,22 @@ const routes: Routes = [
 			{
 				path: 'login',
 				component: UserLoginComponent,
-				data: { title: '登录', titleI18n: 'pro-login' },
+				data: { title: '运维平台', titleI18n: '用户登录' },
 			},
 			{
 				path: 'register',
 				component: UserRegisterComponent,
-				data: { title: '注册', titleI18n: 'pro-register' },
+				data: { title: '运维平台', titleI18n: '用户注册' },
 			},
 			{
 				path: 'register-result',
 				component: UserRegisterResultComponent,
-				data: { title: '注册结果', titleI18n: 'pro-register-result' },
+				data: { title: '运维平台', titleI18n: '注册结果' },
 			},
 			{
 				path: 'lock',
 				component: UserLockComponent,
-				data: { title: '锁屏', titleI18n: 'lock' },
+				data: { title: '运维平台', titleI18n: '锁屏' },
 			},
 		],
 	},
