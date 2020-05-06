@@ -100,6 +100,25 @@
 	>
 		<i nz-icon nzType="unordered-list" nzTheme="outline"></i>
 	</button>
+	<!-- 显示列选择框 -->
+	<!-- <nz-select
+		nzAllowClear
+		[nzMaxTagCount]="6"
+		[nzMaxTagPlaceholder]="tagPlaceHolder"
+		nzMode="multiple"
+		nzPlaceHolder="请选择需要显示的列"
+		[(ngModel)]="listOfSelectedValue"
+		class="displayColumn"
+	>
+		<nz-option
+			*ngFor="let item of listOfOption"
+			[nzLabel]="item"
+			[nzValue]="item"
+		></nz-option>
+	</nz-select>
+	<ng-template #tagPlaceHolder let-selectedList>
+		已选择要显示的列
+	</ng-template> -->
 </div>
 <nz-table
 	#dynamicTable

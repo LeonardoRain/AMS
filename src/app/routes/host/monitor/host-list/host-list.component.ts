@@ -81,6 +81,17 @@ export class HostListComponent implements OnInit {
 		{ label: '44机器', value: '44机器', id: 4 },
 		{ label: '运维平台应用', value: '运维平台应用', id: 5 },
 	];
+	// 可选的显示列
+	public listOfOption = [
+		'全选',
+		'所属区域',
+		'CPU使用',
+		'内存使用',
+		'运行状态',
+		'监控状态',
+	];
+	// 默认显示列
+	public listOfSelectedValue = ['全选'];
 	public listOfSwitch = [
 		{ name: 'Bordered', formControlName: 'bordered' },
 		{ name: 'Loading', formControlName: 'loading' },
@@ -367,9 +378,9 @@ export class HostListComponent implements OnInit {
 						// tslint:disable-next-line: prefer-for-of
 						for (let j = 0; j < this.listOfData.length; j++) {
 							if (this.listOfData[j].id === id) {
-								this.listOfData[i].runningState = '正常';
-								this.listOfData[i].monitorState = '监控中';
-								this.listOfData[i].checked = false;
+								this.listOfData[j].runningState = '正常';
+								this.listOfData[j].monitorState = '监控中';
+								this.listOfData[j].checked = false;
 							}
 						}
 					}
@@ -401,9 +412,9 @@ export class HostListComponent implements OnInit {
 						// tslint:disable-next-line: prefer-for-of
 						for (let j = 0; j < this.listOfData.length; j++) {
 							if (this.listOfData[j].id === id) {
-								this.listOfData[i].runningState = '--';
-								this.listOfData[i].monitorState = '已暂停';
-								this.listOfData[i].checked = false;
+								this.listOfData[j].runningState = '--';
+								this.listOfData[j].monitorState = '已暂停';
+								this.listOfData[j].checked = false;
 							}
 						}
 					}

@@ -5,6 +5,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { HostRoutingModule } from './host-routing.module';
 import { ModalConfirmComponent } from './monitor/components/modal-confirm/modal-confirm.component';
 import { HostListComponent } from './monitor/host-list/host-list.component';
@@ -22,6 +23,7 @@ const COMPONENTS_NOROUNT = [];
 		NzInputModule,
 		NzNotificationModule,
 		NzModalModule,
+		NzSelectModule,
 	],
 	declarations: [
 		...COMPONENTS,
